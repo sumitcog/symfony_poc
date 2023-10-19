@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'view_book' %}
+
+{% block main %}
+    <h1>{{ book.title }}
+        {% if app.user %}
+        {% if 'ROLE_USER' not in app.user.roles %}
+            <a href="{{ path('book_edit', {id: book.id}) }}" class="btn">
+                <i class="fa fa-edit" aria-hidden="true"></i>
+            </a>
+
+            <div class="section actions">
+                {{ include('books/_delete_form.html.twig', {book: book}, with_context = false) }}
+            </div>
+        {% endif %}
+        {% endif %}
+    </h1>
+
+    <p class="post-metadata">
+        <span class="metadata"><i class="fa fa-user"></i> {{ book.author }}</span>
+    </p>
+
+    <div class="jumbotron">
+        <p class="mb-0"><strong>{{ 'label.summary'|trans }}</strong>: {{ book.content }}</p>
+    </div>
+
+    <div class="section actions">
+        {{ include('/books/comments.html.twig', {form: form, comments: comments, book:book}, with_context = false) }}
+    </div>
+
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}

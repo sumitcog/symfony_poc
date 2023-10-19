@@ -1,0 +1,40 @@
+
+<form action="{{ url('admin_book_delete', {id: book.id}) }}" method="post" data-confirmation="true" id="delete-form">
+    <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+    <button type="submit" class="btn btn-lg btn-block btn-danger" id="del">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        Delete Book
+    </button>
+</form>
+
+<script>
+    $('#del').on('click', function(e){
+        e.preventDefault();
+        var fd = new FormData($('#delete-form')[0]);
+    
+        $.ajax({
+            url:'{{ url('admin_book_delete', {id: book.id}) }}',
+            type: "POST",
+            dataType: "json",
+            data: fd,
+            async: true,
+            processData: false,
+            contentType: false,
+            cache : false,
+            success: function (data)
+            {
+                if(data['status'] == 'success')
+                {
+                    alert(data['message']);
+                    redirect_url = '{{ url('books_index') }}';
+                    window.location.href = redirect_url;
+                }
+                else
+                {
+                    alert(data['message']);
+                }
+            }
+        });
+        return false;
+    });
+</script>

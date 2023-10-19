@@ -1,0 +1,19 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body_id 'admin_user_edit' %}
+
+{% block main %}
+    <h1>Edit Book </h1>
+
+    {{ include('admin/books/_form.html.twig', {
+        form: form,
+        button_label: 'action.save'|trans,
+        include_back_to_home_link: true,
+    }, with_context = false) }}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+        {{ include('admin/books/_delete_form.html.twig', {book: book}, with_context = false) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'user_index' %}
+
+{% block main %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+        
+    <h1>logging User</h1>
+
+    <table class="table table-striped table-middle-aligned table-borderless">
+        <tbody>
+            <tr>
+                <td scope="col" width="30%">ID</td>
+                <td>{{ app.user.id }}</td>
+            </tr>
+
+            <tr>
+                <td scope="col">Full Name</td>
+                <td>{{ app.user.fullname }}</td>
+            </tr>
+
+            <tr>
+                <td scope="col">Email</td>
+                <td>{{ app.user.email }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}

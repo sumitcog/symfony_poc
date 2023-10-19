@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body_id 'books_list' %}
+
+{% block main %}
+
+{% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        
+
+    <h1>Books List</h1>
+        
+
+        <table class="table table-striped table-middle-aligned table-borderless">
+        <thead>
+            <tr>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for book in bookslist %}
+            <tr>
+                <td> {% if book.ispublished %}<a href="{{ path('view_book', {id: book.id}) }}">{{ book.title }} <i class="fa fa-eye" aria-hidden="true"></i> </a> {% else %} {{ book.title }} <i class="fa fa-eye-slash" aria-hidden="true"></i> {% endif %}</td>
+                <td>{{ book.Author }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="2" align="center">No Books found</td>
+           </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% if app.user %}
+    <div class="section actions">
+        <a href="{{ path('book_new') }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-plus" aria-hidden="true"></i> Add New Books
+        </a>
+    </div>
+    {% endif %}
+{% endblock %}
+
+

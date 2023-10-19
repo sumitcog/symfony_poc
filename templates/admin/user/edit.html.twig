@@ -1,0 +1,59 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block body_id 'admin_user_edit' %}
+
+{% block main %}
+    <h1>Edit User : {{user.fullName}}</h1>
+
+    {{ include('admin/user/_form.html.twig', {
+        form: form,
+        button_label: 'action.save'|trans,
+        include_back_to_home_link: true,
+    }, with_context = false) }}
+{% endblock %}
+
+{% block sidebar %}
+    <div class="section actions">
+        {% if 'ROLE_ADMIN' not in user.roles %}
+            <form action="{{ url('admin_user_delete', {id: user.id}) }}" method="post" data-confirmation="true" id="delete-form">
+                <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+                <button type="submit" class="btn btn-lg btn-block btn-danger" id="del">
+                    <i class="fa fa-trash" aria-hidden="true"></i>
+                    Delete User
+                </button>
+            </form>
+
+            <script>
+            $('#del').on('click', function(e){
+                e.preventDefault();
+                var fd = new FormData($('#delete-form')[0]);
+            
+                $.ajax({
+                    url:'{{ url('admin_user_delete', {id: user.id}) }}',
+                    type: "POST",
+                    dataType: "json",
+                    data: fd,
+                    async: true,
+                    processData: false,
+                    contentType: false,
+                    cache : false,
+                    success: function (data)
+                    {
+                        if(data['status'] == 'success')
+                        {
+                            redirect_url = '{{ url('admin_user_index') }}';
+                            window.location.href = redirect_url;
+                        }
+                        else
+                        {
+                            alert('Record not deleted.');
+                        }
+                    }
+                });
+                return false;
+            });
+        </script>
+{% endif %}
+    
+    </div>
+{% endblock %}

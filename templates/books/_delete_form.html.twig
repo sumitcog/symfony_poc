@@ -1,0 +1,37 @@
+<form action="{{ url('deactive', {id: book.id}) }}" method="post" data-confirmation="true" id="delete-form">
+    <input type="hidden" name="token" value="{{ csrf_token('delete') }}" />
+    <button type="submit" style="float:right;" class="btn" id="del">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+    </button>
+</form>
+
+<script>
+    $('#del').on('click', function(e){
+        e.preventDefault();
+        var fd = new FormData($('#delete-form')[0]);
+    
+        $.ajax({
+            url:'{{ url('deactive', {id: book.id}) }}',
+            type: "POST",
+            dataType: "json",
+            data: fd,
+            async: true,
+            processData: false,
+            contentType: false,
+            cache : false,
+            success: function (data)
+            {
+                if(data['status'] == 'success')
+                {
+                    redirect_url = '{{ url('books_list') }}';
+                    window.location.href = redirect_url;
+                }
+                else
+                {
+                    alert('Record not deleted.');
+                }
+            }
+        });
+        return false;
+    });
+</script>

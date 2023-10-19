@@ -1,0 +1,25 @@
+
+<h2> Add Comments</h2>
+
+<div class="mb-4">
+    {% for comment in comments %}
+        <div style="float:left;width:85%">{{ comment.comment  }}</div>
+        <div>
+          {{comment.user.fullName }}
+          {% if(is_granted('ROLE_AUTHOR') or is_granted('ROLE_ADMIN')) %}
+          <a href={{ path("comment_delete",{'id':  comment.id, 'book_id':  book.id}) }} > <i class="fa fa-trash" aria-hidden="true"></i> </a>
+          {% endif %}
+        </div>
+        <br />
+    {% endfor %}
+</div>
+
+ {% if app.user %}
+<div class="section actions">
+  {{ form_errors(form) }}
+  <form action="{{ url('add_comment', {id: book.id}) }}" method="post">
+      {{ form_widget(form) }}
+      <input type="submit" />
+  </form>
+</div>
+ {% endif %}
